@@ -38,6 +38,7 @@ public class SMSegmentAppearance {
     public var titleOffSelectionFont: UIFont
     
     public var contentVerticalMargin: CGFloat
+    public var contentHorizontalMargin: CGFloat
     
     
     // INITIALISER
@@ -52,11 +53,13 @@ public class SMSegmentAppearance {
         self.titleOffSelectionFont = UIFont.systemFontOfSize(17.0)
         
         self.contentVerticalMargin = 5.0
+        self.contentHorizontalMargin = 5.0
     }
     
-    internal init(contentVerticalMargin: CGFloat, segmentOnSelectionColour: UIColor, segmentOffSelectionColour: UIColor, titleOnSelectionColour: UIColor, titleOffSelectionColour: UIColor, titleOnSelectionFont: UIFont, titleOffSelectionFont: UIFont) {
+    internal init(contentVerticalMargin: CGFloat, contentHorizontalMargin: CGFloat, segmentOnSelectionColour: UIColor, segmentOffSelectionColour: UIColor, titleOnSelectionColour: UIColor, titleOffSelectionColour: UIColor, titleOnSelectionFont: UIFont, titleOffSelectionFont: UIFont) {
         
         self.contentVerticalMargin = contentVerticalMargin
+        self.contentHorizontalMargin = contentHorizontalMargin
         
         self.segmentOnSelectionColour = segmentOnSelectionColour
         self.segmentOffSelectionColour = segmentOffSelectionColour

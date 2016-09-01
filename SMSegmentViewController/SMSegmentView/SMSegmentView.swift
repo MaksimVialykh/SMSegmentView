@@ -101,11 +101,11 @@ public class SMSegmentView: UIControl {
     }
 
     // MARK: Add Segment
-    public func addSegmentWithTitle(title: String?, onSelectionImage: UIImage?, offSelectionImage: UIImage?) {
-        self.insertSegmentWithTitle(title, onSelectionImage: onSelectionImage, offSelectionImage: offSelectionImage, index: self.segments.count)
+    public func addSegmentWithTitle(title: String?, onSelectionImage: UIImage?, offSelectionImage: UIImage?, segmentOnSelectionColor: UIColor? = nil) {
+        self.insertSegmentWithTitle(title, onSelectionImage: onSelectionImage, offSelectionImage: offSelectionImage, segmentOnSelectionColor: segmentOnSelectionColor, index: self.segments.count)
     }
 
-    public func insertSegmentWithTitle(title: String?, onSelectionImage: UIImage?, offSelectionImage: UIImage?, index: Int) {
+    public func insertSegmentWithTitle(title: String?, onSelectionImage: UIImage?, offSelectionImage: UIImage?, segmentOnSelectionColor: UIColor? = nil, index: Int) {
 
         let segment = SMSegment(appearance: self.segmentAppearance)
 
@@ -119,6 +119,7 @@ public class SMSegmentView: UIControl {
                 self!.selectSegment(segment)
             }
         }
+        segment.segmentOnSelectionColor = segmentOnSelectionColor
         segment.setupUIElements()
         
         self.resetSegmentIndicesWithIndex(index, by: 1)

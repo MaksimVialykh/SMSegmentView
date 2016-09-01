@@ -29,6 +29,7 @@ public class SMSegment: UIView {
     
     // Appearance
     public var appearance: SMSegmentAppearance?
+    public var segmentOnSelectionColor: UIColor?
     
     internal var didSelectSegment: ((segment: SMSegment)->())?
     
@@ -54,7 +55,10 @@ public class SMSegment: UIView {
         self.imageView.contentMode = UIViewContentMode.ScaleAspectFit
         self.addSubview(self.imageView)
         
-        self.label.textAlignment = NSTextAlignment.Center
+        self.label.textAlignment = NSTextAlignment.Left
+        self.label.numberOfLines = 0
+        self.label.minimumScaleFactor = 0.5
+        self.label.adjustsFontSizeToFitWidth = true
         self.addSubview(self.label)
     }
     
@@ -77,29 +81,31 @@ public class SMSegment: UIView {
         var distanceBetween: CGFloat = 0.0
         
         var verticalMargin: CGFloat = 0.0
+        var horizontalMargin: CGFloat = 0.0
         if let appearance = self.appearance {
             verticalMargin = appearance.contentVerticalMargin
+            horizontalMargin = appearance.contentHorizontalMargin
         }
         
-        var imageViewFrame = CGRectMake(0.0, verticalMargin, 0.0, self.frame.size.height - verticalMargin*2)
+        var imageViewFrame = CGRectMake(0.0, verticalMargin, 0.0, self.frame.size.height - verticalMargin * 2)
         if self.onSelectionImage != nil || self.offSelectionImage != nil {
             // Set imageView as a square
-            imageViewFrame.size.width = self.frame.size.height - verticalMargin*2
+            imageViewFrame.size.width = self.frame.size.height - verticalMargin * 2
             distanceBetween = 5.0
         }
         
         // If there's no text, align image in the centre
         // Otherwise align text & image in the centre
-        self.label.sizeToFit()
+//        self.label.sizeToFit()
         if self.label.frame.size.width == 0.0 {
             imageViewFrame.origin.x = max((self.frame.size.width - imageViewFrame.size.width) / 2.0, 0.0)
         }
         else {
-            imageViewFrame.origin.x = max((self.frame.size.width - imageViewFrame.size.width - self.label.frame.size.width) / 2.0 - distanceBetween, 0.0)
+            imageViewFrame.origin.x = max((self.frame.size.width - imageViewFrame.size.width - horizontalMargin), 0.0)
         }
         
         self.imageView.frame = imageViewFrame
-        self.label.frame = CGRectMake(imageViewFrame.origin.x + imageViewFrame.size.width + distanceBetween, verticalMargin, self.label.frame.size.width, self.frame.size.height - verticalMargin * 2)
+        self.label.frame = CGRectMake(horizontalMargin, verticalMargin, CGRectGetMinX(imageViewFrame) - distanceBetween - horizontalMargin, self.frame.size.height - verticalMargin * 2)
     }
     
     // MARK: Selections
@@ -107,7 +113,7 @@ public class SMSegment: UIView {
         self.isSelected = selected
         if selected == true {
             dispatch_async(dispatch_get_main_queue(), {
-                self.backgroundColor = self.appearance?.segmentOnSelectionColour
+                self.backgroundColor = self.segmentOnSelectionColor != nil ? self.segmentOnSelectionColor : self.appearance?.segmentOnSelectionColour
                 self.label.textColor = self.appearance?.titleOnSelectionColour
                 self.imageView.image = self.onSelectionImage
             })
